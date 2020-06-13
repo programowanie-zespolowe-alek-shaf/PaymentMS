@@ -5,15 +5,15 @@ grant all on payment.* to 'payment'@'%';
 
 USE payment;
 
-create table Coupon (
-    ID BIGINT unsigned auto_increment PRIMARY KEY UNIQUE,
-    code VARCHAR(15),
+create table coupon (
+    ID BIGINT unsigned auto_increment PRIMARY KEY,
+    code VARCHAR(15) unique,
     discount_multiplayer decimal(4,3),
-    amountLeft int
+    amount_left int
 );
 
-create table Transaction (
-    ID BIGINT unsigned auto_increment PRIMARY KEY UNIQUE ,
+create table transaction (
+    ID BIGINT unsigned auto_increment PRIMARY KEY ,
     shopping_card_id BIGINT,
     timestamp_of_transaction TIMESTAMP,
     amount decimal(15,2),

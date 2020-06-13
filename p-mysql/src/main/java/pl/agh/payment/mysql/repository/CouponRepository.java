@@ -2,20 +2,23 @@ package pl.agh.payment.mysql.repository;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
-import pl.agh.payment.mysql.entity.Transaction;
+import pl.agh.payment.mysql.entity.Coupon;
 
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
+
 @Transactional
 @Repository
-public interface TransactionRepository extends CrudRepository<Transaction, Long> {
+public interface CouponRepository extends CrudRepository<Coupon, Long> {
 
-    List<Transaction> findAll();
+    List<Coupon> findAll();
 
-    List<Transaction> findByShoppingCardID(Long shoppingCardID);
+    List<Coupon> findAllById(Long id);
 
-    Optional<Transaction> findById(Long id);
+    Optional<Coupon> findById(Long id);
+
+    Optional<Coupon> findByCode(String code);
 
 }

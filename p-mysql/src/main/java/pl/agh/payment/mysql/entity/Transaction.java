@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -15,7 +16,7 @@ import java.util.Date;
 @Builder
 @Data
 @Entity
-@Table(name="Transaction", schema = "payment")
+@Table(name="transaction", schema = "payment")
 public class Transaction {
     @Id
     @NotNull
@@ -31,20 +32,18 @@ public class Transaction {
     private Date timestampOfTransaction;
 
     @NotNull
+    @PositiveOrZero
     private Float amount;
 
     @NotNull
-    private String status;
+    private Status status;
 
-    @NotNull
-    @Column(name = "method_of_payment")
-    private String methodOfPayment;
+
+    @Column(name = "coupon_id")
+    private Long couponID;
 
     public enum Status {
         PENDING, COMPLETED, CANCELED
     }
 
-    public enum PaymentMethod {
-        CREDIT_CARD, BLIK, PAYPAL
-    }
 }

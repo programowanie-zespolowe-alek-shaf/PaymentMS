@@ -5,6 +5,7 @@ import lombok.Setter;
 import pl.agh.payment.mysql.entity.Transaction;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
 import java.util.Date;
 
 @Getter
@@ -15,20 +16,18 @@ public class TransactionDTO {
     private Long shoppingCardID;
 
     @NotNull
+    @PositiveOrZero
     private Float amount;
-
-    @NotNull
-    private String methodOfPayment;
 
     private String couponCode;
 
-    public Transaction toEntity() {
+    public Transaction toEntity(Long couponID) {
         return Transaction.builder()
                 .shoppingCardID(shoppingCardID)
                 .timestampOfTransaction(new Date())
                 .amount(amount)
-                .status("Completed")
-                .methodOfPayment(methodOfPayment)
+                .status(Transaction.Status.COMPLETED)
+                .couponID(couponID)
                 .build();
     }
 
