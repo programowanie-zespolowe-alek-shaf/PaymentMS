@@ -2,10 +2,7 @@ package pl.agh.application.common;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.agh.payment.mysql.entity.Coupon;
-
-import java.net.URI;
 
 public class ValidationUtil {
 
@@ -18,10 +15,6 @@ public class ValidationUtil {
                     .status(HttpStatus.FORBIDDEN)
                     .body("This coupon has no usages left.");
         }
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(coupon.getId())
-                .toUri();
-        return ResponseEntity.ok(uri);
+        return ResponseEntity.ok(coupon);
     }
 }

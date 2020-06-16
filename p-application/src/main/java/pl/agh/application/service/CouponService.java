@@ -24,8 +24,9 @@ public class CouponService {
 
     public ListResponse findAll(int limit, int offset) {
         List<Coupon> coupons = couponRepository.findAll();
+        int count = coupons.size();
         coupons = ListUtil.clampedSublist(coupons, limit, offset);
-        return new ListResponse(coupons, coupons.size());
+        return new ListResponse(coupons, count);
     }
 
     public Coupon findById(Long id) {
