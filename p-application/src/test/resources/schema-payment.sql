@@ -22,6 +22,6 @@ create table transaction
     status                   VARCHAR(20),
     method_of_payment        VARCHAR(20),
     coupon_id                BIGINT unsigned,
-    FOREIGN KEY (coupon_id) REFERENCES Coupon (ID)
+    FOREIGN KEY (coupon_id) REFERENCES coupon (ID)
 );
 

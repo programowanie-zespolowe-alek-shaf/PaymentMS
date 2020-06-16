@@ -28,7 +28,7 @@ public class CouponController {
         if (couponService.findByCode(couponDTO.getCode()) != null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Coupon with given code already exists.");
         }
-        if(couponDTO.getDiscountMultiplayer() <= 0 || couponDTO.getDiscountMultiplayer() >= 1 ) {
+        if (couponDTO.getDiscountMultiplayer() <= 0 || couponDTO.getDiscountMultiplayer() >= 1) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Coupon with incorrect multiplayer");
         }
         Coupon newCoupon = couponService.addCoupon(couponDTO);
@@ -42,7 +42,9 @@ public class CouponController {
     }
 
     @GetMapping(produces = APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> getAllCoupons() { return ResponseEntity.ok(couponService.findAll());}
+    public ResponseEntity<?> getAllCoupons(@RequestParam int limit, @RequestParam int offset) {
+        return ResponseEntity.ok(couponService.findAll(limit, offset));
+    }
 
     @GetMapping(value = "/{id}", produces = APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getById(@PathVariable("id") Long id) {
@@ -74,8 +76,8 @@ public class CouponController {
         }
     }
 
-    @GetMapping(value= "validate/{code}", produces = {APPLICATION_JSON_VALUE})
-    public ResponseEntity<?> validateCoupon(@PathVariable String code){
+    @GetMapping(value = "validate/{code}", produces = {APPLICATION_JSON_VALUE})
+    public ResponseEntity<?> validateCoupon(@PathVariable String code) {
         Coupon coupon = couponService.findByCode(code);
         return ValidationUtil.validateCoupon(coupon);
 

@@ -1,38 +1,40 @@
 package pl.agh.application.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import pl.agh.application.common.ListResponse;
+import pl.agh.application.common.ListUtil;
 import pl.agh.application.dto.CouponDTO;
 import pl.agh.payment.mysql.entity.Coupon;
 import pl.agh.payment.mysql.repository.CouponRepository;
 
+import java.util.List;
 import java.util.Optional;
+
 @Service
+@RequiredArgsConstructor
 public class CouponService {
 
     private final CouponRepository couponRepository;
-
-    @Autowired
-    public CouponService(CouponRepository couponRepository) {
-        this.couponRepository = couponRepository;
-    }
 
     public Coupon addCoupon(CouponDTO couponDTO) {
         Coupon coupon = couponDTO.toEntity();
         return couponRepository.save(coupon);
     }
 
-    public Iterable<Coupon> findAll() {
-        return couponRepository.findAll();
+    public ListResponse findAll(int limit, int offset) {
+        List<Coupon> coupons = couponRepository.findAll();
+        coupons = ListUtil.clampedSublist(coupons, limit, offset);
+        return new ListResponse(coupons, coupons.size());
     }
 
     public Coupon findById(Long id) {
         return couponRepository.findById(id).orElse(null);
     }
 
-    public Coupon delete(Long id ) {
+    public Coupon delete(Long id) {
         Optional<Coupon> coupon = couponRepository.findById(id);
-        if(coupon.isEmpty()) {
+        if (coupon.isEmpty()) {
             return null;
         }
         couponRepository.delete(coupon.get());
@@ -58,6 +60,4 @@ public class CouponService {
         }
         return couponRepository.findByCode(code).orElse(null);
     }
-
-
 }
